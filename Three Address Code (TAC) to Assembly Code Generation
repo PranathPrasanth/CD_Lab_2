@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <string.h>
+
+int main(){
+    
+    int n,i;
+    
+    char line[100],res[50],a[50],op[50],b[50];
+    
+    printf("Enter no. of operators: ");
+    scanf("%d",&n);
+    getchar();
+    
+    for(i=0;i<n;i++){
+        
+        printf("\nEnter TAC: ");
+        fgets(line,sizeof(line),stdin);
+        
+        sscanf(line,"%49s = %49s %49s %49s",res,a,op,b);
+        
+        if(strcmp(op,"+")==0){
+            printf("MOV AX,%s\n",a);
+            printf("ADD AX,%s\n",b);
+        }
+        
+        else if(strcmp(op,"-")==0){
+            printf("MOV AX,%s\n",a);
+            printf("SUB AX,%s\n",b);
+        }
+        
+        else if(strcmp(op,"*")==0){
+            printf("MOV AX,%s\n",a);
+            printf("MOV BX,%s\n",b);
+            printf("MUL BX\n");
+        }
+        
+        else if(strcmp(op,"/")==0){
+            printf("MOV AX,%s\n",a);
+            printf("MOV BX,%s\n",b);
+            printf("DIV BX\n");
+        }
+        
+        else{
+            printf("Invalid operator\n");
+            continue;
+        }
+        
+        printf("MOV %s,AX\n",res);
+        
+    }
+    
+    return 0;
+}

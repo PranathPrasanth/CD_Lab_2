@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+char s[100],in[100];
+int top=0,i=0;
+
+int prec(char c){
+    
+    if(c=='+'){
+        return 1;
+    }
+    if(c=='*'){
+        return 2;
+    }
+    return 0;
+}
+
+int reduce(){
+    
+    if(top>=3 && s[top-2]=='E' && (s[top-1]=='+' || s[top-1]=='*') && s[top]=='E'){
+        
+        top-=2;
+        s[top]='E';
+        printf("Reduce E op E to E\n");
+        return 1;
+    }
+    return 0;
+}
+
+int main(){
+    
+    printf("Enter string: ");
+    scanf("%99s",in);
+    
+    s[0]='$';
+    
+    while(in[i]){
+        
+        if(in[i]=='i'){
+            
+            s[++top]='E';
+            i++;
+            printf("Reduce i to E\n");
+        }
+        else if(in[i]=='+' || in[i]=='*'){
+            
+            while(top>=3 && prec(s[top-1])>=prec(in[i])){
+                
+                reduce();
+                
+            }
+            s[++top]=in[i++];
+            printf("Shift\n");
+        }
+        else{
+            
+            printf("Rejected");
+            return 0;
+        }
+    }
+    
+    while(reduce());
+    
+    if(top==1 && s[1]=='E'){
+        printf("Accepted!");}
+    else{
+        
+        printf("Rejected!");
+    }
+    return 0;
+    
+}

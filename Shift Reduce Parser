@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+int main(){
+    
+    char s[100],in[100];
+    int top=-1,i=0;
+    
+    printf("Enter string (terminals a's & b's): ");
+    scanf("%s",in);
+    
+    while(in[i]){
+        
+        s[++top]=in[i++];
+        printf("Shift\n");
+        
+        while(1){
+            
+            if(top>=1 && s[top-1]=='a' && s[top]=='b'){
+                top--;
+                s[top]='S';
+                printf("Reduce S->ab\n");
+            }
+            
+            else if(top>=2 && s[top-2]=='a' && s[top-1]=='S' && s[top]=='b'){
+                top-=2;
+                s[top]='S';
+                printf("Reduce S->aSb\n");
+            }
+            else{
+                break;
+            }
+        }
+    }
+    
+    if(top==0 && s[top]=='S'){
+        printf("Accepted!");
+    }
+    else{
+        printf("Rejected!");
+    }
+    return 0;
+}

@@ -61,3 +61,15 @@ int main()
 
     return 0;
 }
+
+
+
+
+
+/*
+Sample Input:
+i+i*i
+
+Sample Output:
+Accepted
+*/

@@ -1,0 +1,67 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char op[100], val[100][20];
+int ot=-1, vt=-1, temp=1;
+
+int prec(char c)
+{
+    if(c=='+' || c=='-') return 1;
+    if(c=='*' || c=='/') return 2;
+    return 0;
+}
+
+void generate()
+{
+    char a[20], b[20], o;
+
+    strcpy(b,val[vt--]);
+    strcpy(a,val[vt--]);
+    o=op[ot--];
+
+    printf("t%d = %s %c %s\n",temp,a,o,b);
+    sprintf(val[++vt],"t%d",temp++);
+}
+
+int main()
+{
+    char s[100];
+    int i;
+
+    printf("Enter expression: ");
+    scanf("%s",s);
+
+    for(i=0;s[i];i++)
+    {
+        if(isalnum(s[i]))
+        {
+            val[++vt][0]=s[i];
+            val[vt][1]='\0';
+        }
+        else if(s[i]=='(')
+            op[++ot]=s[i];
+
+        else if(s[i]==')')
+        {
+            while(ot>=0 && op[ot]!='(')
+                generate();
+            ot--;
+        }
+        else
+        {
+            while(ot>=0 && op[ot]!='(' &&
+                  prec(op[ot])>=prec(s[i]))
+                generate();
+
+            op[++ot]=s[i];
+        }
+    }
+
+    while(ot>=0)
+        generate();
+
+    printf("Result = %s\n",val[vt]);
+    return 0;
+}

@@ -112,3 +112,27 @@ int main()
 
     return 0;
 }
+
+
+
+
+
+/*
+Sample Input:
+4
+E->TR
+R->+TR
+R->#
+T->i
+
+Sample Output:
+FIRST:
+FIRST(E)={i}
+FIRST(R)={+ #}
+FIRST(T)={i}
+
+FOLLOW:
+FOLLOW(E)={$}
+FOLLOW(R)={$}
+FOLLOW(T)={+}
+*/

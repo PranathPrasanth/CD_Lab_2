@@ -1,0 +1,114 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char p[20][20],f[26][30],fo[26][30];
+int n;
+
+void add(char s[],char c)
+{
+    int i;
+    for(i=0;s[i];i++)
+        if(s[i]==c) return;
+
+    int l=strlen(s);
+    s[l]=c;
+    s[l+1]='\0';
+}
+
+void first(char c,char r[])
+{
+    int i,j;
+
+    if(!isupper(c))
+    {
+        add(r,c);
+        return;
+    }
+
+    for(i=0;i<n;i++)
+        if(p[i][0]==c)
+        {
+            for(j=3;p[i][j];j++)
+            {
+                char t[30]="";
+
+                if(p[i][j]=='#')
+                {
+                    add(r,'#');
+                    break;
+                }
+
+                first(p[i][j],t);
+
+                for(int k=0;t[k];k++)
+                    if(t[k]!='#') add(r,t[k]);
+
+                if(!strchr(t,'#')) break;
+
+                if(!p[i][j+1]) add(r,'#');
+            }
+        }
+}
+
+int main()
+{
+    int i,j,k,pass;
+
+    printf("Enter number of productions: ");
+    scanf("%d",&n);
+
+    printf("Enter productions (A->a, use # for epsilon):\n");
+    for(i=0;i<n;i++)
+        scanf("%s",p[i]);
+
+    for(i=0;i<n;i++)
+        first(p[i][0],f[p[i][0]-'A']);
+
+    printf("\nFIRST:\n");
+    for(i=0;i<n;i++)
+        if(i==0 || p[i][0]!=p[i-1][0])
+            printf("FIRST(%c)={%s}\n",
+                   p[i][0],f[p[i][0]-'A']);
+
+    add(fo[p[0][0]-'A'],'$');
+
+    for(pass=0;pass<n;pass++)
+        for(i=0;i<n;i++)
+            for(j=3;p[i][j];j++)
+            {
+                char B=p[i][j],A=p[i][0];
+
+                if(!isupper(B)) continue;
+
+                if(p[i][j+1])
+                {
+                    char C=p[i][j+1];
+
+                    if(!isupper(C))
+                        add(fo[B-'A'],C);
+                    else
+                    {
+                        for(k=0;f[C-'A'][k];k++)
+                            if(f[C-'A'][k]!='#')
+                                add(fo[B-'A'],f[C-'A'][k]);
+
+                        if(strchr(f[C-'A'],'#'))
+                            for(k=0;fo[A-'A'][k];k++)
+                                add(fo[B-'A'],fo[A-'A'][k]);
+                    }
+                }
+                else
+                    for(k=0;fo[A-'A'][k];k++)
+                        add(fo[B-'A'],fo[A-'A'][k]);
+            }
+
+    printf("\nFOLLOW:\n");
+    for(i=0;i<n;i++)
+        if(i==0 || p[i][0]!=p[i-1][0])
+            printf("FOLLOW(%c)={%s}\n",
+                   p[i][0],fo[p[i][0]-'A']);
+
+    return 0;
+}

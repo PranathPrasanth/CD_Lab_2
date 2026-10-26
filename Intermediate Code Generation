@@ -65,3 +65,22 @@ int main()
     printf("Result = %s\n",val[vt]);
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+/*
+Sample Input:
+a+b*c
+
+Sample Output:
+t1 = b * c
+t2 = a + t1
+Result = t2
+*/

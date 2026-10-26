@@ -40,3 +40,22 @@ int main(){
     }
     return 0;
 }
+
+
+
+
+
+
+/*
+Sample Input:
+aabb
+
+Sample Output:
+Shift
+Shift
+Shift
+Reduce S->ab
+Shift
+Reduce S->aSb
+Accepted
+*/

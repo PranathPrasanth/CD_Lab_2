@@ -51,3 +51,23 @@ int main(){
     
     return 0;
 }
+
+
+
+
+
+/*
+Sample Input:
+2
+t1 = a + b
+t2 = t1 * c
+
+Sample Output:
+MOV AX, a
+ADD AX, b
+MOV t1, AX
+MOV AX, t1
+MOV BX, c
+MUL BX
+MOV t2, AX
+*/

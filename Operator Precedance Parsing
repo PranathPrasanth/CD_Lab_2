@@ -69,3 +69,22 @@ int main(){
     return 0;
     
 }
+
+
+
+
+
+/*
+Sample Input:
+i+i*i
+
+Sample Output:
+Reduce i to E
+Shift
+Reduce i to E
+Shift
+Reduce i to E
+Reduce E op E to E
+Reduce E op E to E
+Accepted
+*/
